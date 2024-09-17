@@ -70,10 +70,9 @@ const Login = () => {
 
 			setTimeout(() => {
 				if (userdata.isFarmer) {
-					navigate("/shop");
+					window.location.href = `https://frontend-ruddy-six-56.vercel.app?token=${userdata.token}`;
 				} else {
-					const frontendUrl = `https://frontend-ruddy-six-56.vercel.app?token=${userdata.token}`;
-					window.location.href = frontendUrl;
+					navigate("/shop");
 				}
 				setIsLoading(false);
 			}, 4000);
