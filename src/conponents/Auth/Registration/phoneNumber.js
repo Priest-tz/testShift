@@ -43,7 +43,7 @@ const PhoneNumberOrEmailComponent = ({ onNextStep }) => {
 				<div className="flex flex-col gap-4 py-12 px-4 md:p-12 items-center">
 					{/* Logo */}
 					<div className="flex flex-col justify-center items-center gap-4 mb-4">
-						<div className="flex gap-1 justify-center items-center text-primaryGreen">
+						<div className="flex justify-center items-center text-primaryGreen">
 							<span className=" text-2xl md:text-3xl font-bold">
 								GREEN
 							</span>

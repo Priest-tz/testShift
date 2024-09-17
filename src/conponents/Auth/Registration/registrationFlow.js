@@ -96,7 +96,12 @@ const RegistrationFlow = () => {
 
 			const response = await axios.post(
 				`${BASE_URL}${endpoint}`,
-				requestBody
+				requestBody,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
 			);
 
 			console.log("Registration successful:", response.data);

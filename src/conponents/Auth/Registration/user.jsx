@@ -46,7 +46,7 @@ const UserReg = ({ onNextStep }) => {
 				<div className="flex flex-col gap-4 p-8 items-center">
 					{/* Logo */}
 					<div className="flex flex-col justify-center items-center gap-2 mb-2">
-						<div className="flex gap-1 justify-center items-center text-primaryGreen">
+						<div className="flex justify-center items-center text-primaryGreen">
 							<span className="text-2xl md:text-3xl font-bold">
 								GREEN
 							</span>
@@ -153,8 +153,8 @@ const UserReg = ({ onNextStep }) => {
 					{/* Link to Login */}
 					<div className="text-base mt-4 mb-10">
 						<span className="text-customBlack">
-							Don't have an account?
-						</span>{" "}
+							Have an account already?
+						</span>
 						<a className="text-primaryGreen" href="/login">
 							Login Instead
 						</a>

@@ -39,7 +39,7 @@ const ShopInfoComponent = ({ onNextStep }) => {
 			<div className="relative z-10 p-4 m-4 md:m-0 bg-primaryBg bg-opacity-60 rounded-xl shadow-lg max-w-3xl w-full">
 				<div className="flex flex-col gap-4 py-12 px-4 md:p-12 items-center">
 					<div className="flex flex-col justify-center items-center gap-4 mb-4">
-						<div className="flex gap-1 justify-center items-center text-primaryGreen">
+						<div className="flex justify-center items-center text-primaryGreen">
 							<span className="text-2xl md:text-3xl font-bold">
 								GREEN
 							</span>

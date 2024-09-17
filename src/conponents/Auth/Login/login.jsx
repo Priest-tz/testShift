@@ -83,13 +83,7 @@ const Login = () => {
 		}
 	};
 
-	if (!showLogin) {
-		return (
-			<div>
-				<Spinner />
-			</div>
-		);
-	}
+	const isButtonDisabled = !(credential && password);
 
 	return (
 		<div
@@ -99,7 +93,7 @@ const Login = () => {
 			<div className="relative z-10 p-4 m-4 md:m-0 bg-primaryBg bg-opacity-60 rounded-xl shadow-lg max-w-3xl w-full">
 				<div className="flex flex-col gap-4 p-4 md:p-12 items-center">
 					<div className="flex flex-col justify-center items-center gap-2 mb-4">
-						<div className="flex gap-1 justify-center items-center text-primaryGreen">
+						<div className="flex justify-center items-center text-primaryGreen">
 							<span className="text-2xl md:text-3xl font-bold">
 								GREEN
 							</span>
@@ -176,8 +170,13 @@ const Login = () => {
 						</div>
 						<button
 							type="submit"
-							className="w-full mt-6 py-4 px-4 bg-baseGreen text-base text-milkText font-medium rounded-lg hover:bg-primaryGreen focus:outline-none">
-							{isLoading ? <Spinner /> : "Login"}{" "}
+							className={`w-full mt-6 py-4 px-4 rounded-lg font-medium text-base ${
+								isButtonDisabled
+									? "bg-baseGreen "
+									: "bg-primaryGreen"
+							} focus:outline-none`}
+							disabled={isButtonDisabled}>
+							{isLoading ? <Spinner /> : "Login"}
 						</button>
 					</form>
 					<div className="text-sm">
