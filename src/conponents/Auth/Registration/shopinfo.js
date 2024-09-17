@@ -5,7 +5,7 @@ import CategoryDropdown from "./shopCategory";
 
 const ShopInfoComponent = ({ onNextStep }) => {
 	const [formData, setFormData] = useState({
-		businessName: "",
+		// businessName: "",
 		businessCategories: [],
 		businessState: "",
 		businessLocalGovernmentArea: "",
@@ -27,9 +27,6 @@ const ShopInfoComponent = ({ onNextStep }) => {
 		formData.businessState &&
 		formData.businessLocalGovernmentArea &&
 		formData.businessAddress.trim();
-
-	console.log("Form Data:", formData);
-	console.log("Is Form Valid:", isFormValid);
 
 	return (
 		<div
@@ -53,7 +50,7 @@ const ShopInfoComponent = ({ onNextStep }) => {
 					</div>
 
 					<div className="w-full max-w-md">
-						<div className="mb-4">
+						{/* <div className="mb-4">
 							<input
 								type="text"
 								name="businessName"
@@ -62,7 +59,7 @@ const ShopInfoComponent = ({ onNextStep }) => {
 								placeholder="Business Name"
 								className="mt-1 block w-full py-4 px-3 border border-border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-primaryGreen"
 							/>
-						</div>
+						</div> */}
 
 						<div className="mb-4">
 							<select
@@ -126,7 +123,9 @@ const ShopInfoComponent = ({ onNextStep }) => {
 								isFormValid ? "bg-primaryGreen" : "bg-baseGreen"
 							}`}
 							disabled={!isFormValid}
-							onClick={() => onNextStep(formData)}>
+							onClick={() => {
+								onNextStep(formData);
+							}}>
 							Register
 						</button>
 					</div>

@@ -14,19 +14,19 @@ const RegistrationFlow = () => {
 	const navigate = useNavigate();
 	const [step, setStep] = useState(0);
 	const [registrationdata, setRegistrationdata] = useState({
-		isFarmer: null,
+		isFarmer: false,
 		email: "",
 		phoneNumber: "",
 		password: "",
 		firstName: "",
 		lastName: "",
-		businessName: "",
 		businessCategories: [],
 		businessState: "",
 		businessLocalGovernmentArea: "",
 		businessAddress: "",
 	});
 	const [isLoading, setIsLoading] = useState(false);
+	const [formError, setFormError] = useState("");
 
 	const handleUserTypeSelection = (isFarmer) => {
 		setRegistrationdata({ ...registrationdata, isFarmer });
@@ -62,7 +62,39 @@ const RegistrationFlow = () => {
 	};
 
 	const handleRegistrationSubmit = async () => {
+		let error = null;
+
+		if (registrationdata.isFarmer) {
+			if (
+				!registrationdata.password ||
+				!registrationdata.businessCategories.length ||
+				!registrationdata.businessState ||
+				!registrationdata.businessLocalGovernmentArea ||
+				!registrationdata.businessAddress ||
+				!registrationdata.firstName ||
+				!registrationdata.lastName
+			) {
+				error = "Some required fields are missing.";
+			}
+		} else {
+			if (
+				!registrationdata.firstName ||
+				!registrationdata.lastName ||
+				(!registrationdata.phoneNumber && !registrationdata.email) ||
+				!registrationdata.password
+			) {
+				error = "Some required fields are missing.";
+			}
+		}
+
+		if (error) {
+			setFormError(error);
+			return;
+		}
+
+		setFormError("");
 		setIsLoading(true);
+
 		try {
 			let endpoint;
 			let requestBody;
@@ -70,9 +102,11 @@ const RegistrationFlow = () => {
 			if (registrationdata.isFarmer) {
 				endpoint = "api/farmers/";
 				requestBody = {
+					firstName: registrationdata.firstName,
+					lastName: registrationdata.lastName,
 					password: registrationdata.password,
-					phoneNumber: registrationdata.phoneNumber,
-					email: registrationdata.email,
+					phoneNumber: registrationdata.phoneNumber, // can be empty
+					email: registrationdata.email, // can be empty
 					businessCategories:
 						registrationdata.businessCategories.join(", "),
 					businessState: registrationdata.businessState,
@@ -86,8 +120,9 @@ const RegistrationFlow = () => {
 				requestBody = {
 					firstName: registrationdata.firstName,
 					lastName: registrationdata.lastName,
+					phoneNumber: registrationdata.phoneNumber, // can be empty
+					email: registrationdata.email, // can be empty
 					password: registrationdata.password,
-					phoneNumber: registrationdata.phoneNumber,
 					isFarmer: false,
 				};
 			}
@@ -96,16 +131,10 @@ const RegistrationFlow = () => {
 
 			const response = await axios.post(
 				`${BASE_URL}${endpoint}`,
-				requestBody,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
+				requestBody
 			);
 
 			console.log("Registration successful:", response.data);
-
 			navigate("/login");
 		} catch (error) {
 			console.error(
@@ -142,7 +171,12 @@ const RegistrationFlow = () => {
 		}
 	};
 
-	return <div>{isLoading ? <Spinner /> : renderStep()}</div>;
+	return (
+		<div>
+			{formError && <div className="error">{formError}</div>}
+			{isLoading ? <Spinner /> : renderStep()}
+		</div>
+	);
 };
 
 export default RegistrationFlow;

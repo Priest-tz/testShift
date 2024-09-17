@@ -8,10 +8,10 @@ function Shop() {
 	const [showSplash, setShowSplash] = useState(false);
 
 	useEffect(() => {
-		const splashScreenShown = localStorage.getItem("splashScreenShown");
+		const splashScreenShown = sessionStorage.getItem("splashScreenShown");
 		if (!splashScreenShown) {
 			setShowSplash(true);
-			localStorage.setItem("splashScreenShown", "true");
+			sessionStorage.setItem("splashScreenShown", "true");
 			const timer = setTimeout(() => {
 				setShowSplash(false);
 			}, 5000);

@@ -15,13 +15,14 @@ const Login = () => {
 	const [credential, setCredential] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
 	const [showLogin, setShowLogin] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
+			setIsLoading(false);
 			setShowLogin(true);
 		}, 2000);
 		return () => clearTimeout(timer);
@@ -84,6 +85,10 @@ const Login = () => {
 	};
 
 	const isButtonDisabled = !(credential && password);
+
+	if (isLoading) {
+		return <Spinner />;
+	}
 
 	return (
 		<div
@@ -170,13 +175,13 @@ const Login = () => {
 						</div>
 						<button
 							type="submit"
-							className={`w-full mt-6 py-4 px-4 rounded-lg font-medium text-base ${
+							className={`w-full mt-6 py-4 px-4 text-milkText rounded-lg font-medium text-base ${
 								isButtonDisabled
 									? "bg-baseGreen "
 									: "bg-primaryGreen"
 							} focus:outline-none`}
 							disabled={isButtonDisabled}>
-							{isLoading ? <Spinner /> : "Login"}
+							Login
 						</button>
 					</form>
 					<div className="text-sm">
