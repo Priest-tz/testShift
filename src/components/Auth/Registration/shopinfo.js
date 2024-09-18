@@ -1,32 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import Backdrop from "../../../data/Images/Greenshift_backdrop.jpeg";
 import statesData from "../../../data/StatesLgas.json";
 import CategoryDropdown from "./shopCategory";
 
-const ShopInfoComponent = ({ onNextStep }) => {
-	const [formData, setFormData] = useState({
-		// businessName: "",
-		businessCategories: [],
-		businessState: "",
-		businessLocalGovernmentArea: "",
-		businessAddress: "",
-	});
-
+const ShopInfoComponent = ({
+	onNextStep,
+	registrationdata,
+	setRegistrationdata,
+}) => {
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		setRegistrationdata((prev) => ({ ...prev, [name]: value }));
 	};
 
 	const handleCategoryChange = (categories) => {
-		setFormData((prev) => ({ ...prev, businessCategories: categories }));
+		setRegistrationdata((prev) => ({
+			...prev,
+			businessCategories: categories,
+		}));
 	};
 
 	const isFormValid =
-		formData.businessName.trim() &&
-		formData.businessCategories.length > 0 &&
-		formData.businessState &&
-		formData.businessLocalGovernmentArea &&
-		formData.businessAddress.trim();
+		registrationdata.businessName.trim() &&
+		registrationdata.businessCategories.length > 0 &&
+		registrationdata.businessState &&
+		registrationdata.businessLocalGovernmentArea &&
+		registrationdata.businessAddress.trim();
 
 	return (
 		<div
@@ -50,21 +49,21 @@ const ShopInfoComponent = ({ onNextStep }) => {
 					</div>
 
 					<div className="w-full max-w-md">
-						{/* <div className="mb-4">
+						<div className="mb-4">
 							<input
 								type="text"
 								name="businessName"
-								value={formData.businessName}
+								value={registrationdata.businessName}
 								onChange={handleInputChange}
 								placeholder="Business Name"
 								className="mt-1 block w-full py-4 px-3 border border-border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-primaryGreen"
 							/>
-						</div> */}
+						</div>
 
 						<div className="mb-4">
 							<select
 								name="businessState"
-								value={formData.businessState}
+								value={registrationdata.businessState}
 								onChange={handleInputChange}
 								className="mt-1 block w-full py-4 px-3 border border-border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-primaryGreen">
 								<option value="">
@@ -78,25 +77,27 @@ const ShopInfoComponent = ({ onNextStep }) => {
 							</select>
 						</div>
 
-						{formData.businessState && (
+						{registrationdata.businessState && (
 							<div className="mb-4">
 								<select
 									name="businessLocalGovernmentArea"
-									value={formData.businessLocalGovernmentArea}
+									value={
+										registrationdata.businessLocalGovernmentArea
+									}
 									onChange={handleInputChange}
 									className="mt-1 block w-full py-4 px-3 border border-border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-primaryGreen">
 									<option value="">
 										Select Local Government
 									</option>
-									{statesData[formData.businessState]?.map(
-										(localGovt) => (
-											<option
-												key={localGovt}
-												value={localGovt}>
-												{localGovt}
-											</option>
-										)
-									)}
+									{statesData[
+										registrationdata.businessState
+									]?.map((localGovt) => (
+										<option
+											key={localGovt}
+											value={localGovt}>
+											{localGovt}
+										</option>
+									))}
 								</select>
 							</div>
 						)}
@@ -105,7 +106,7 @@ const ShopInfoComponent = ({ onNextStep }) => {
 							<input
 								type="text"
 								name="businessAddress"
-								value={formData.businessAddress}
+								value={registrationdata.businessAddress}
 								onChange={handleInputChange}
 								placeholder="Business Address"
 								className="mt-1 block w-full py-4 px-3 border border-border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-primaryGreen"
@@ -113,7 +114,9 @@ const ShopInfoComponent = ({ onNextStep }) => {
 						</div>
 
 						<CategoryDropdown
-							selectedCategories={formData.businessCategories}
+							selectedCategories={
+								registrationdata.businessCategories
+							}
 							setSelectedCategories={handleCategoryChange}
 						/>
 
@@ -124,7 +127,7 @@ const ShopInfoComponent = ({ onNextStep }) => {
 							}`}
 							disabled={!isFormValid}
 							onClick={() => {
-								onNextStep(formData);
+								onNextStep(registrationdata);
 							}}>
 							Register
 						</button>

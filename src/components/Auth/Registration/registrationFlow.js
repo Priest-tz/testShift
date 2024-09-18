@@ -21,6 +21,7 @@ const RegistrationFlow = () => {
 		password: "",
 		firstName: "",
 		lastName: "",
+		businessName: "",
 		businessCategories: [],
 		businessState: "",
 		businessLocalGovernmentArea: "",
@@ -75,6 +76,7 @@ const RegistrationFlow = () => {
 		if (registrationdata.isFarmer) {
 			if (
 				!registrationdata.password ||
+				!registrationdata.businessName ||
 				!registrationdata.businessCategories.length ||
 				!registrationdata.businessState ||
 				!registrationdata.businessLocalGovernmentArea ||
@@ -115,6 +117,7 @@ const RegistrationFlow = () => {
 					password: registrationdata.password,
 					phoneNumber: registrationdata.phoneNumber,
 					email: registrationdata.email,
+					businessName: registrationdata.businessName,
 					businessCategories:
 						registrationdata.businessCategories.join(", "),
 					businessState: registrationdata.businessState,
@@ -144,7 +147,6 @@ const RegistrationFlow = () => {
 
 			console.log("Registration successful:", response.data);
 
-			// Show success modal
 			setIsSuccessModalVisible(true);
 		} catch (error) {
 			console.error(
@@ -177,7 +179,13 @@ const RegistrationFlow = () => {
 					/>
 				);
 			case 4:
-				return <ShopInfoComponent onNextStep={handleShopInfoSubmit} />;
+				return (
+					<ShopInfoComponent
+						onNextStep={handleShopInfoSubmit}
+						registrationdata={registrationdata}
+						setRegistrationdata={setRegistrationdata}
+					/>
+				);
 			default:
 				return null;
 		}

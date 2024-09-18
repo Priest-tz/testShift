@@ -14,7 +14,7 @@ const Modal = ({ isVisible, onClose }) => {
 				</p>
 				<button
 					onClick={onClose}
-					className="w-full bg-primaryGreen text-white py-2 rounded-lg">
+					className="w-full bg-primaryGreen text-white py-3 rounded-lg">
 					Close
 				</button>
 			</div>
