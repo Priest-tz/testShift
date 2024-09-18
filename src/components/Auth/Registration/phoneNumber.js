@@ -17,11 +17,7 @@ const PhoneNumberOrEmailComponent = ({ onNextStep }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (isValidInput(inputValue)) {
-			console.log(
-				"Valid input, calling onNextStep with value:",
-				inputValue
-			);
-			onNextStep(inputValue); // Ensure onNextStep is being invoked correctly
+			onNextStep(inputValue);
 		} else {
 			setErrorMessage("Please enter a valid phone number or email.");
 		}

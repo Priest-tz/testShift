@@ -3,8 +3,8 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { StoreProvider } from "./context/storeContext";
 import store, { products } from "./context/store";
-import RegistrationFlow from "./conponents/Auth/Registration/registrationFlow";
-import Login from "./conponents/Auth/Login/login";
+import RegistrationFlow from "./components/Auth/Registration/registrationFlow";
+import Login from "./components/Auth/Login/login";
 import Shop from "./pages/Shop/Index";
 
 function App() {

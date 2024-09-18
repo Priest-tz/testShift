@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import Backdrop from "../../../data/Images/Greenshift_backdrop.jpeg";
 import user from "../../../data/Images/user.svg";
 
-const PersonalFormComponent = ({ onNextStep, isFarmer }) => {
-	const [formData, setFormData] = useState({
-		firstName: "",
-		lastName: "",
-	});
-
+const PersonalFormComponent = ({
+	onNextStep,
+	registrationdata,
+	setRegistrationdata,
+}) => {
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		setRegistrationdata((prev) => ({ ...prev, [name]: value }));
 	};
 
-	const isFormValid = formData.firstName && formData.lastName;
+	const isFormValid = registrationdata.firstName && registrationdata.lastName;
 
 	const handleSubmit = () => {
 		if (isFormValid) {
-			onNextStep(formData);
+			onNextStep();
 		}
 	};
 
@@ -49,7 +48,7 @@ const PersonalFormComponent = ({ onNextStep, isFarmer }) => {
 							<input
 								type="text"
 								name="firstName"
-								value={formData.firstName}
+								value={registrationdata.firstName}
 								onChange={handleInputChange}
 								className="w-full pl-10 pr-4 py-4 mb-3 bg-white rounded-lg border-2 border-border outline-none"
 								placeholder="First Name"
@@ -64,7 +63,7 @@ const PersonalFormComponent = ({ onNextStep, isFarmer }) => {
 							<input
 								type="text"
 								name="lastName"
-								value={formData.lastName}
+								value={registrationdata.lastName}
 								onChange={handleInputChange}
 								className="w-full pl-10 pr-4 py-4 mb-3 bg-white rounded-lg border-2 border-border outline-none"
 								placeholder="Last Name"

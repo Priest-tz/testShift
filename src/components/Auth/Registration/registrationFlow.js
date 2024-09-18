@@ -7,6 +7,7 @@ import PasswordComponent from "./password";
 import PersonalFormComponent from "./personalInfo";
 import ShopInfoComponent from "./shopinfo";
 import Spinner from "../spinner";
+import Modal from "./modal";
 
 const BASE_URL = "https://backend-greenshift.onrender.com/";
 
@@ -27,6 +28,7 @@ const RegistrationFlow = () => {
 	});
 	const [isLoading, setIsLoading] = useState(false);
 	const [formError, setFormError] = useState("");
+	const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
 
 	const handleUserTypeSelection = (isFarmer) => {
 		setRegistrationdata({ ...registrationdata, isFarmer });
@@ -47,8 +49,14 @@ const RegistrationFlow = () => {
 		setStep(3);
 	};
 
-	const handlePersonalInfoSubmit = (personalInfo) => {
-		setRegistrationdata({ ...registrationdata, ...personalInfo });
+	const handlePersonalInfoSubmit = () => {
+		if (!registrationdata.firstName || !registrationdata.lastName) {
+			setFormError("Some required fields are missing.");
+			return;
+		}
+
+		setFormError("");
+
 		if (registrationdata.isFarmer) {
 			setStep(4);
 		} else {
@@ -105,8 +113,8 @@ const RegistrationFlow = () => {
 					firstName: registrationdata.firstName,
 					lastName: registrationdata.lastName,
 					password: registrationdata.password,
-					phoneNumber: registrationdata.phoneNumber, // can be empty
-					email: registrationdata.email, // can be empty
+					phoneNumber: registrationdata.phoneNumber,
+					email: registrationdata.email,
 					businessCategories:
 						registrationdata.businessCategories.join(", "),
 					businessState: registrationdata.businessState,
@@ -120,8 +128,8 @@ const RegistrationFlow = () => {
 				requestBody = {
 					firstName: registrationdata.firstName,
 					lastName: registrationdata.lastName,
-					phoneNumber: registrationdata.phoneNumber, // can be empty
-					email: registrationdata.email, // can be empty
+					phoneNumber: registrationdata.phoneNumber,
+					email: registrationdata.email,
 					password: registrationdata.password,
 					isFarmer: false,
 				};
@@ -135,7 +143,9 @@ const RegistrationFlow = () => {
 			);
 
 			console.log("Registration successful:", response.data);
-			navigate("/login");
+
+			// Show success modal
+			setIsSuccessModalVisible(true);
 		} catch (error) {
 			console.error(
 				"Registration failed:",
@@ -162,6 +172,8 @@ const RegistrationFlow = () => {
 				return (
 					<PersonalFormComponent
 						onNextStep={handlePersonalInfoSubmit}
+						registrationdata={registrationdata}
+						setRegistrationdata={setRegistrationdata}
 					/>
 				);
 			case 4:
@@ -175,6 +187,11 @@ const RegistrationFlow = () => {
 		<div>
 			{formError && <div className="error">{formError}</div>}
 			{isLoading ? <Spinner /> : renderStep()}
+
+			<Modal
+				isVisible={isSuccessModalVisible}
+				onClose={() => navigate("/login")}
+			/>
 		</div>
 	);
 };

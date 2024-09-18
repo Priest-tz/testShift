@@ -38,7 +38,7 @@ const UserReg = ({ onNextStep }) => {
 
 	return (
 		<div
-			className="flex items-center justify-center select-none caret-transparent min-h-screen bg-cover bg-center bg-no-repeat bg-gray-800 bg-opacity-30"
+			className="flex items-center justify-center select-none caret-transparent h-screen bg-cover bg-center bg-no-repeat bg-gray-800 bg-opacity-30"
 			style={{ backgroundImage: `url(${Backdrop})` }}>
 			{/* Dark Hue Overlay */}
 			<div className="absolute inset-0 bg-black opacity-50"></div>

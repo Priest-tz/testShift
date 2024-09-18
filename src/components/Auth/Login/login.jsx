@@ -92,7 +92,7 @@ const Login = () => {
 
 	return (
 		<div
-			className="flex items-center justify-center select-none min-h-screen bg-cover bg-center bg-no-repeat bg-gray-800 bg-opacity-30"
+			className="flex items-center justify-center select-none h-screen bg-cover bg-center bg-no-repeat bg-gray-800 bg-opacity-30"
 			style={{ backgroundImage: `url(${Backdrop})` }}>
 			<div className="absolute inset-0 bg-black opacity-50"></div>
 			<div className="relative z-10 p-4 m-4 md:m-0 bg-primaryBg bg-opacity-60 rounded-xl shadow-lg max-w-3xl w-full">

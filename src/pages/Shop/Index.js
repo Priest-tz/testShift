@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../conponents/Shop/navbar";
-import Banner from "../../conponents/Shop/Banner";
-import ShopGallery from "../../conponents/Shop/Shop";
+import Navbar from "../../components/Shop/navbar";
+import Banner from "../../components/Shop/Banner";
+import ShopGallery from "../../components/Shop/Shop";
 import SplashScreen from "../../pages/Welcome/Index";
 
 function Shop() {
@@ -9,14 +9,18 @@ function Shop() {
 
 	useEffect(() => {
 		const splashScreenShown = sessionStorage.getItem("splashScreenShown");
+
 		if (!splashScreenShown) {
 			setShowSplash(true);
 			sessionStorage.setItem("splashScreenShown", "true");
+
 			const timer = setTimeout(() => {
 				setShowSplash(false);
 			}, 5000);
 
 			return () => clearTimeout(timer);
+		} else {
+			setShowSplash(false);
 		}
 	}, []);
 
