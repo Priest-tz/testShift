@@ -131,7 +131,7 @@ const Navbar = () => {
 								<img
 									src={loadingIcon}
 									alt="Loading"
-									className="absolute left-2 w-5 h-5 animate-spin"
+									className="absolute left-2 w-5 h-5"
 								/>
 								Prelisted Products
 							</button>

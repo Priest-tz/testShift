@@ -55,7 +55,8 @@ const Login = () => {
 		try {
 			const response = await axios.post(
 				"https://backend-greenshift.onrender.com/api/users/auth",
-				{ credential, password }
+				{ credential, password },
+				{ withCredentials: true }
 			);
 
 			const userdata = {
@@ -73,7 +74,7 @@ const Login = () => {
 
 			setTimeout(() => {
 				if (userdata.isFarmer) {
-					window.location.href = `https://frontend-ruddy-six-56.vercel.app?token=${userdata.token}`;
+					window.location.href = `https://frontend-ruddy-six-56.vercel.app`;
 				} else {
 					navigate("/");
 				}

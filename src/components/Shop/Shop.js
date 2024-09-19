@@ -33,11 +33,14 @@ const ShopGallery = () => {
 		<div className="flex relative">
 			{/* Sidebar */}
 			<div
-				className={`bg-primaryGreen bg-opacity-10 z-30 transition-all duration-300 ease-in-out
-          fixed top-0 left-0 w-3/4 max-w-[300px] hidden
-          md:block md:relative md:w-1/5 md:max-w-none
-          ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-				<div className="py-16 flex flex-col items-center justify-center gap-2">
+				className={`fixed md:static bg-primaryGreen bg-opacity-10 z-30 transition-all duration-300 ease-in-out 
+         h-full overflow-hidden
+        ${
+			isSidebarOpen
+				? "w-3/4 max-w-[300px] md:w-1/5 md:max-w-none"
+				: "w-0 md:w-0"
+		}`}>
+				<div className="py-16 flex flex-col items-center justify-center gap-2 whitespace-nowrap">
 					{/* Sidebar content */}
 					<ul>
 						<li className="mb-6">
@@ -67,55 +70,55 @@ const ShopGallery = () => {
 			</div>
 
 			{/* Main content */}
-			<div
-				className={`flex-1 transition-all duration-300 ease-in-out
-          ${isSidebarOpen ? "md:ml-[20%]" : "md:ml-0"}
-          ${isSidebarOpen ? "md:w-4/5" : "md:w-full"}
-          w-full`}>
+			<div className="flex-1 transition-all duration-300 ease-in-out">
 				<div className="p-4">
 					{/* Sidebar toggle button */}
 					<button
-						className="hidden md:mb-4 md:flex relative"
-						onClick={() => dispatch(toggleSidebar())}>
-						<img
-							src={chevronleft}
-							alt="close sidebar"
-							className="w-6 h-6 md:w-10 md:h-10"
-						/>
-						<img
-							src={chevronleft}
-							alt="close sidebar"
-							className="w-6 h-6 md:w-10 md:h-10"
-						/>
+						className="mb-4 flex items-center justify-center w-10 h-10 md:w-10 md:h-10 bg-primaryGreen bg-opacity-10 rounded-full"
+						onClick={() => dispatch(toggleSidebar())}
+						aria-label={
+							isSidebarOpen ? "Close Sidebar" : "Open Sidebar"
+						}>
+						<div className="flex">
+							<img
+								src={chevronleft}
+								alt=""
+								className={`w-5 h-5 md:w-4 md:h-4 transition-transform duration-300 ${
+									isSidebarOpen ? "rotate-0" : "rotate-180"
+								}`}
+							/>
+							<img
+								src={chevronleft}
+								alt=""
+								className={`w-5 h-5 md:w-4 md:h-4 transition-transform duration-300 ${
+									isSidebarOpen ? "rotate-0" : "rotate-180"
+								}`}
+							/>
+						</div>
 					</button>
 
 					{/* Product Grid */}
-					<div className="flex-1 transition-all duration-300 ease-in-out w-full">
-						<div className="p-4">
-							{/* Product Grid */}
-							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-								{products.map((product) => (
-									<Link
-										to={`/product/${product._id}`}
-										key={product._id}>
-										<div className="border p-4 rounded shadow">
-											<img
-												src={`${baseUrl}${product.imagePath}`}
-												alt={product.produceName}
-												className="w-full h-32 sm:h-40 lg:h-48 object-cover mb-2 rounded"
-												loading="lazy"
-											/>
-											<h3 className="text-lg font-semibold">
-												{product.produceName}
-											</h3>
-											<p className="text-gray-700">
-												&#8358;{product.price}
-											</p>
-										</div>
-									</Link>
-								))}
-							</div>
-						</div>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+						{products.map((product) => (
+							<Link
+								to={`/product/${product._id}`}
+								key={product._id}>
+								<div className="border p-4 rounded shadow">
+									<img
+										src={`${baseUrl}${product.imagePath}`}
+										alt={product.produceName}
+										className="w-full h-32 sm:h-40 lg:h-48 object-cover mb-2 rounded"
+										loading="lazy"
+									/>
+									<h3 className="text-lg font-semibold">
+										{product.produceName}
+									</h3>
+									<p className="text-gray-700">
+										&#8358;{product.price}
+									</p>
+								</div>
+							</Link>
+						))}
 					</div>
 					<TrendingProducts />
 				</div>
