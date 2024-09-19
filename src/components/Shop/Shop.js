@@ -33,8 +33,8 @@ const ShopGallery = () => {
 		<div className="flex relative">
 			{/* Sidebar */}
 			<div
-				className={`fixed md:static bg-primaryGreen bg-opacity-10 z-30 transition-all duration-300 ease-in-out 
-         h-full overflow-hidden
+				className={` bg-primaryGreen bg-opacity-10 z-30 transition-all duration-300 ease-in-out 
+         min-h-screen overflow-hidden
         ${
 			isSidebarOpen
 				? "w-3/4 max-w-[300px] md:w-1/5 md:max-w-none"
@@ -74,7 +74,7 @@ const ShopGallery = () => {
 				<div className="p-4">
 					{/* Sidebar toggle button */}
 					<button
-						className="mb-4 flex items-center justify-center w-10 h-10 md:w-10 md:h-10 bg-primaryGreen bg-opacity-10 rounded-full"
+						className="flex mb-4  items-center justify-center w-10 h-10 md:w-10 md:h-10 bg-primaryGreen bg-opacity-10 rounded-full"
 						onClick={() => dispatch(toggleSidebar())}
 						aria-label={
 							isSidebarOpen ? "Close Sidebar" : "Open Sidebar"
