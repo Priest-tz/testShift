@@ -1,14 +1,21 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
 import bell from "../../data/Images/bell.svg";
 import question from "../../data/Images/question.svg";
 import cart from "../../data/Images/shopping-cart.svg";
 import userIcon from "../../data/Images/user.svg";
 import arrowDown from "../../data/Images/chevron-down.svg";
+import loadingIcon from "../../data/Images/waiting.svg";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [userDropdown, setUserDropdown] = useState(false);
+
+	const user = useSelector((state) => state.auth.user);
+	const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+	const dispatch = useDispatch();
 
 	const toggleMenu = () => {
 		setIsOpen(!isOpen);
@@ -18,23 +25,42 @@ const Navbar = () => {
 		setUserDropdown(!userDropdown);
 	};
 
+	const handleLogout = () => {
+		dispatch(logout());
+		// Optionally, you might want to redirect after logout
+	};
+
 	return (
 		<div className="sticky top-0 z-50 bg-milkText shadow">
 			<div className="flex justify-between items-center md:px-12 px-4 py-6 select-none">
 				{/* Logo */}
-				<div className="flex items-end">
-					<span className="text-primaryGreen text-2xl md:text-3xl font-semibold">
-						GREEN
-					</span>
-					<span className="text-primaryGreen text-2xl md:text-3xl font-light">
-						shift
-					</span>
-				</div>
+				<Link to="/" className="flex items-end">
+					<div className="flex items-end">
+						<span className="text-primaryGreen text-2xl md:text-3xl font-semibold">
+							GREEN
+						</span>
+						<span className="text-primaryGreen text-2xl md:text-3xl font-light">
+							shift
+						</span>
+					</div>
+				</Link>
 
 				<div className="flex items-center md:hidden space-x-2">
-					<button onClick={toggleUserDropdown}>
-						<img src={userIcon} alt="User" className="w-6 h-6" />
-					</button>
+					{isAuthenticated ? (
+						<button
+							onClick={toggleUserDropdown}
+							className="flex items-center space-x-2">
+							<span>Welcome {user.firstName}</span>
+						</button>
+					) : (
+						<button onClick={toggleUserDropdown}>
+							<img
+								src={userIcon}
+								alt="User"
+								className="w-6 h-6"
+							/>
+						</button>
+					)}
 
 					<button onClick={toggleMenu}>
 						<svg
@@ -70,10 +96,12 @@ const Navbar = () => {
 							/>
 							<span>Help</span>
 						</li>
-						<li className="flex items-center space-x-2 cursor-pointer">
+						<Link
+							to="/checkout"
+							className="flex items-center space-x-2">
 							<img src={cart} alt="Cart" className="w-4 h-4" />
 							<span>Cart</span>
-						</li>
+						</Link>
 						<li
 							className="relative flex items-center space-x-2 cursor-pointer"
 							onClick={toggleUserDropdown}>
@@ -82,7 +110,11 @@ const Navbar = () => {
 								alt="User"
 								className="w-4 h-4"
 							/>
-							<span>User</span>
+							<span>
+								{isAuthenticated
+									? `Welcome ${user.firstName}`
+									: "User"}
+							</span>
 							<img
 								src={arrowDown}
 								alt="Dropdown Arrow"
@@ -93,25 +125,51 @@ const Navbar = () => {
 						</li>
 					</ul>
 
-					<button className="px-12 py-4 bg-primaryGreen text-white text-xs rounded">
-						SELL
-					</button>
+					<div className="flex space-x-4">
+						<Link to="/pre">
+							<button className="relative px-12 py-4 border-2	 border-primaryGreen text-primaryGreen text-xs rounded">
+								<img
+									src={loadingIcon}
+									alt="Loading"
+									className="absolute left-2 w-5 h-5 animate-spin"
+								/>
+								Prelisted Products
+							</button>
+						</Link>
+						<button className="px-12 py-4 bg-primaryGreen text-white text-xs rounded">
+							SELL
+						</button>
+					</div>
 				</div>
 			</div>
 
+			{/* User dropdown */}
 			{userDropdown && !isOpen && (
 				<div className="absolute right-20 top-16 md:right-60 select-none mt-2 w-32 bg-white shadow-lg rounded z-100">
 					<ul className="text-sm text-black">
-						<li className="px-4 py-3">
-							<Link to="/auth">Register</Link>
-						</li>
-						<li className="px-4 py-3">
-							<Link to="/login">Login</Link>
-						</li>
+						{isAuthenticated ? (
+							<>
+								<li
+									className="px-4 py-3 cursor-pointer"
+									onClick={handleLogout}>
+									Logout
+								</li>
+							</>
+						) : (
+							<>
+								<li className="px-4 py-3">
+									<Link to="/auth">Register</Link>
+								</li>
+								<li className="px-4 py-3">
+									<Link to="/login">Login</Link>
+								</li>
+							</>
+						)}
 					</ul>
 				</div>
 			)}
 
+			{/* Mobile Menu */}
 			{isOpen && (
 				<div className="md:hidden">
 					<ul className="flex flex-col space-y-4 text-inactiveText text-base p-6">
@@ -132,12 +190,33 @@ const Navbar = () => {
 							<span>Help</span>
 						</li>
 						<li className="flex items-center space-x-2 cursor-pointer">
-							<img src={cart} alt="Cart" className="w-4 h-4" />
-							<span>Cart</span>
+							<Link
+								to="/checkout"
+								className="flex items-center space-x-2">
+								<img
+									src={cart}
+									alt="Cart"
+									className="w-4 h-4"
+								/>
+								<span>Cart</span>
+							</Link>
 						</li>
 					</ul>
 
-					<div className="px-6 py-4">
+					<div className="px-6 py-4 space-y-4">
+						{/* Prelisted Products Button visible in mobile */}
+						<Link to="/pre">
+							<button className="relative w-full border-2 border-primaryGreen text-primaryGreen text-xs rounded py-4 animate-bounce">
+								<img
+									src={loadingIcon}
+									alt="Loading"
+									className="absolute left-6 w-4 h-4 animate-spin"
+								/>
+								Prelisted Products
+							</button>
+						</Link>
+
+						{/* Sell button in mobile */}
 						<button className="w-full bg-primaryGreen text-white text-xs rounded py-4">
 							SELL
 						</button>

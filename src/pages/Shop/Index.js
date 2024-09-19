@@ -3,6 +3,7 @@ import Navbar from "../../components/Shop/navbar";
 import Banner from "../../components/Shop/Banner";
 import ShopGallery from "../../components/Shop/Shop";
 import SplashScreen from "../../pages/Welcome/Index";
+import Footer from "../../components/Shop/footer";
 
 function Shop() {
 	const [showSplash, setShowSplash] = useState(false);
@@ -33,6 +34,7 @@ function Shop() {
 					<Navbar />
 					<Banner />
 					<ShopGallery />
+					<Footer />
 				</>
 			)}
 		</div>

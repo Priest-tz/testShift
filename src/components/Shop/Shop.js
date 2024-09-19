@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleSidebar } from "../../features/shop/shopSlice";
-import { useStore } from "../../context/storeContext";
+import { toggleSidebar, fetchProducts } from "../../features/shop/shopSlice";
 import chevronleft from "../../data/Images/chevronLeft.svg";
+import TrendingProducts from "./trending";
+import Spinner from "../Auth/spinner";
+
+const baseUrl = "https://backend-greenshift.onrender.com";
 
 const ShopGallery = () => {
 	const dispatch = useDispatch();
-	const { products } = useStore();
+	const { products, status, error } = useSelector((state) => state.shop);
 	const isSidebarOpen = useSelector((state) => state.shop.isSidebarOpen);
 
-	if (!products) {
-		return <div>Loading products...</div>;
+	useEffect(() => {
+		dispatch(fetchProducts());
+	}, [dispatch]);
+
+	if (status === "loading") {
+		return (
+			<div className="flex items-center justify-center h-screen">
+				<Spinner />
+			</div>
+		);
+	}
+
+	if (status === "failed") {
+		return <div>Error: {error.message}</div>;
 	}
 
 	return (
@@ -18,8 +34,8 @@ const ShopGallery = () => {
 			{/* Sidebar */}
 			<div
 				className={`bg-primaryGreen bg-opacity-10 z-30 transition-all duration-300 ease-in-out
-          fixed top-0 left-0  w-3/4 max-w-[300px] hidden
-          md:relative md:w-1/5 md:max-w-none
+          fixed top-0 left-0 w-3/4 max-w-[300px] hidden
+          md:block md:relative md:w-1/5 md:max-w-none
           ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
 				<div className="py-16 flex flex-col items-center justify-center gap-2">
 					{/* Sidebar content */}
@@ -53,46 +69,55 @@ const ShopGallery = () => {
 			{/* Main content */}
 			<div
 				className={`flex-1 transition-all duration-300 ease-in-out
-          ${isSidebarOpen ? "md:ml-[20%]" : "md:ml-[0"}
+          ${isSidebarOpen ? "md:ml-[20%]" : "md:ml-0"}
           ${isSidebarOpen ? "md:w-4/5" : "md:w-full"}
           w-full`}>
 				<div className="p-4">
 					{/* Sidebar toggle button */}
 					<button
-						className=" hidden md:mb-4 md:flex relative"
+						className="hidden md:mb-4 md:flex relative"
 						onClick={() => dispatch(toggleSidebar())}>
 						<img
 							src={chevronleft}
 							alt="close sidebar"
-							className="w-12 h-12"
+							className="w-6 h-6 md:w-10 md:h-10"
 						/>
 						<img
 							src={chevronleft}
 							alt="close sidebar"
-							className="w-12 h-12"
+							className="w-6 h-6 md:w-10 md:h-10"
 						/>
 					</button>
 
 					{/* Product Grid */}
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-						{products.map((product) => (
-							<div
-								key={product.id}
-								className="border p-4 rounded">
-								<img
-									src={product.image}
-									alt={product.name}
-									className="w-[60%] h-28 object-cover mb-2"
-								/>
-								<h3 className="text-lg font-semibold">
-									{product.name}
-								</h3>
-								<p className="text-gray-700">
-									&#8358;{product.price}
-								</p>
+					<div className="flex-1 transition-all duration-300 ease-in-out w-full">
+						<div className="p-4">
+							{/* Product Grid */}
+							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+								{products.map((product) => (
+									<Link
+										to={`/product/${product._id}`}
+										key={product._id}>
+										<div className="border p-4 rounded shadow">
+											<img
+												src={`${baseUrl}${product.imagePath}`}
+												alt={product.produceName}
+												className="w-full h-32 sm:h-40 lg:h-48 object-cover mb-2 rounded"
+												loading="lazy"
+											/>
+											<h3 className="text-lg font-semibold">
+												{product.produceName}
+											</h3>
+											<p className="text-gray-700">
+												&#8358;{product.price}
+											</p>
+										</div>
+									</Link>
+								))}
 							</div>
-						))}
+						</div>
 					</div>
+					<TrendingProducts />
 				</div>
 			</div>
 		</div>

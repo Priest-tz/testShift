@@ -69,11 +69,13 @@ const Login = () => {
 
 			dispatch(login(userdata));
 
+			localStorage.setItem("userData", JSON.stringify(userdata));
+
 			setTimeout(() => {
 				if (userdata.isFarmer) {
 					window.location.href = `https://frontend-ruddy-six-56.vercel.app?token=${userdata.token}`;
 				} else {
-					navigate("/shop");
+					navigate("/");
 				}
 				setIsLoading(false);
 			}, 4000);
