@@ -55,8 +55,7 @@ const Login = () => {
 		try {
 			const response = await axios.post(
 				"https://backend-greenshift.onrender.com/api/users/auth",
-				{ credential, password },
-				{ withCredentials: true }
+				{ credential, password }
 			);
 
 			const userdata = {
@@ -68,13 +67,15 @@ const Login = () => {
 				isFarmer: response.data.isFarmer,
 			};
 
+			// Store the userData in Redux
 			dispatch(login(userdata));
 
+			//store the userData in localStorage
 			localStorage.setItem("userData", JSON.stringify(userdata));
 
 			setTimeout(() => {
 				if (userdata.isFarmer) {
-					window.location.href = `https://frontend-ruddy-six-56.vercel.app`;
+					window.location.href = `https://frontend-ruddy-six-56.vercel.app?token=${userdata.token}`;
 				} else {
 					navigate("/");
 				}
