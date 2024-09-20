@@ -108,7 +108,6 @@ const ShopGallery = () => {
 										src={`${baseUrl}${product.imagePath}`}
 										alt={product.produceName}
 										className="w-full h-32 sm:h-40 lg:h-48 object-cover mb-2 rounded"
-										loading="lazy"
 									/>
 									<h3 className="text-lg font-semibold">
 										{product.produceName}

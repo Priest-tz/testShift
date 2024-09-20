@@ -67,10 +67,8 @@ const Login = () => {
 				isFarmer: response.data.isFarmer,
 			};
 
-			// Store the userData in Redux
 			dispatch(login(userdata));
 
-			//store the userData in localStorage
 			localStorage.setItem("userData", JSON.stringify(userdata));
 
 			setTimeout(() => {

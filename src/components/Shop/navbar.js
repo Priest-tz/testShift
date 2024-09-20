@@ -206,11 +206,11 @@ const Navbar = () => {
 					<div className="px-6 py-4 space-y-4">
 						{/* Prelisted Products Button visible in mobile */}
 						<Link to="/pre">
-							<button className="relative w-full border-2 border-primaryGreen text-primaryGreen text-xs rounded py-4 animate-bounce">
+							<button className="relative w-full border-2 border-primaryGreen text-primaryGreen text-xs rounded py-4">
 								<img
 									src={loadingIcon}
 									alt="Loading"
-									className="absolute left-6 w-4 h-4 animate-spin"
+									className="absolute left-6 w-4 h-4 "
 								/>
 								Prelisted Products
 							</button>
