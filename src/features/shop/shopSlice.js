@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Async thunk to fetch products
 export const fetchProducts = createAsyncThunk(
 	"shop/fetchProducts",
 	async (_, { getState, rejectWithValue }) => {
 		const { auth } = getState();
 		const token = auth.user?.token;
+
 		try {
 			const response = await axios.get(
 				"https://backend-greenshift.onrender.com/api/farmers/products",
@@ -16,12 +16,11 @@ export const fetchProducts = createAsyncThunk(
 					},
 				}
 			);
-      console.log("Product response:", response.data);
+			console.log("Product response:", response.data);
 			return response.data;
 		} catch (error) {
-			return rejectWithValue(
-				error.response?.data || "Something went wrong"
-			);
+			console.error("Error fetching products:", error);
+			return rejectWithValue([]);
 		}
 	}
 );
@@ -52,7 +51,8 @@ const shopSlice = createSlice({
 			})
 			.addCase(fetchProducts.rejected, (state, action) => {
 				state.status = "failed";
-				state.error = action.payload;
+				state.products = action.payload;
+				state.error = "Failed to fetch products";
 			});
 	},
 });
